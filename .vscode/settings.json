@@ -1,0 +1,29 @@
+{
+    "C_Cpp.default.compileCommands": "${workspaceFolder}/.vscode/compile_commands.json",
+    "C_Cpp.default.compilerPath": "/usr/local/arm/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc",
+    "C_Cpp.default.cStandard": "gnu89",
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-arm",
+    "C_Cpp.enhancedColorization": "enabled",
+    "C_Cpp.intelliSenseEngine": "default",
+    "editor.semanticHighlighting.enabled": true,
+    "files.exclude": {
+        "**/*.o": true,
+        "**/*.a": true,
+        "**/*.ko": true,
+        "**/*.cmd": true,
+        "**/*.d": true,
+        "**/.tmp_*": true,
+        "Documentation": true,
+        "tools": true
+    },
+    "search.exclude": {
+        "**/*.o": true,
+        "**/*.a": true,
+        "**/*.ko": true,
+        "**/*.cmd": true,
+        "**/*.d": true,
+        "**/.tmp_*": true,
+        "Documentation": true,
+        "tools": true
+    }
+}

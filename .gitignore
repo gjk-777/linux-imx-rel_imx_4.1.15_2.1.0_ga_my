@@ -106,3 +106,11 @@ all.config
 
 # Kdevelop4
 *.kdev4
+
+# VS Code project configuration. The compile database is generated locally
+# from Kbuild command files and is intentionally kept out of version control.
+!.vscode/
+!.vscode/c_cpp_properties.json
+!.vscode/settings.json
+!.vscode/generate_compile_commands.py
+.vscode/compile_commands.json

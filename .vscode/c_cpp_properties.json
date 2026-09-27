@@ -1,0 +1,39 @@
+{
+    "configurations": [
+        {
+            "name": "Linux ARM kernel",
+            "compilerPath": "/usr/local/arm/gcc-linaro-4.9.4-2017.01-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc",
+            "compileCommands": "${workspaceFolder}/.vscode/compile_commands.json",
+            "includePath": [
+                "${workspaceFolder}",
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/include/uapi",
+                "${workspaceFolder}/include/generated",
+                "${workspaceFolder}/include/generated/uapi",
+                "${workspaceFolder}/arch/arm/include",
+                "${workspaceFolder}/arch/arm/include/uapi",
+                "${workspaceFolder}/arch/arm/include/generated",
+                "${workspaceFolder}/arch/arm/include/generated/uapi"
+            ],
+            "forcedInclude": [
+                "${workspaceFolder}/include/linux/kconfig.h"
+            ],
+            "defines": [
+                "__KERNEL__"
+            ],
+            "cStandard": "gnu89",
+            "intelliSenseMode": "linux-gcc-arm",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/include",
+                    "${workspaceFolder}/arch/arm/include",
+                    "${workspaceFolder}/include/generated",
+                    "${workspaceFolder}/arch/arm/include/generated"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            }
+        }
+    ],
+    "version": 4
+}
