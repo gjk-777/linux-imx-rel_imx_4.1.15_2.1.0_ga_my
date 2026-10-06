@@ -145,8 +145,34 @@
 			spi-max-frequency = <100000>;
 		};
 	};
+	/*自定义节点;*/
+	testnode: mytest@0101{
+		
+	};
+	/*测试裸机方面的设置2026.10.5*/
+	alphaled {
+		compatible = "alientek,imx6ul-led";
+		#address-cells = <1>;//一个地址单元
+		#size-cells = <1>;   //一个大小单元
+		status = "okay";
+		reg =<0X020C406C 0X04
+			0X020E0068 0X04
+			0X020E02F4 0X04
+			0X0209C000 0X04
+			0X0209C004 0X04>;
+	};
 };
-
+//测试中断添加
+&intc {
+	mytestnode: mytest@0101{
+		
+	};
+};
+//#define CCM_CCGR1_BASE				(0X020C406C)	
+//#define SW_MUX_GPIO1_IO03_BASE		(0X020E0068)
+//#define SW_PAD_GPIO1_IO03_BASE		(0X020E02F4)
+//#define GPIO1_DR_BASE				(0X0209C000)
+//#define GPIO1_GDIR_BASE				(0X0209C004)
 &cpu0 {
 	arm-supply = <&reg_arm>;
 	soc-supply = <&reg_soc>;
@@ -288,10 +314,10 @@
 &iomuxc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_hog_1>;
-	imx6ul-evk {
+	imx6ul-evk {//添加 imx6ul-evk 子节点；相当于一个配置分组容器，下面放了多个引脚组
 		pinctrl_hog_1: hoggrp-1 {
 			fsl,pins = <
-				MX6UL_PAD_UART1_RTS_B__GPIO1_IO19	0x17059 /* SD1 CD */
+				MX6UL_PAD_UART1_RTS_B__GPIO1_IO19	0x17059 /* SD1 CD */ //17059属于是电气属性
 				MX6UL_PAD_GPIO1_IO05__USDHC1_VSELECT	0x17059 /* SD1 VSELECT */
 				MX6UL_PAD_GPIO1_IO09__GPIO1_IO09        0x17059 /* SD1 RESET */
 			>;
