@@ -6,6 +6,11 @@
     "C_Cpp.enhancedColorization": "enabled",
     "C_Cpp.intelliSenseEngine": "default",
     "editor.semanticHighlighting.enabled": true,
+
+    "files.associations": {
+        "*.dts": "dts",
+        "*.dtsi": "dts"
+    },
     "files.exclude": {
         "**/*.o": true,
         "**/*.a": true,
