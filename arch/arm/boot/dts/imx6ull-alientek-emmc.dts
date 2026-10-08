@@ -161,6 +161,24 @@
 			0X0209C000 0X04
 			0X0209C004 0X04>;
 	};
+
+	/*添加gpio子系统节点*/
+	gpioled{
+		compatible = "alientek,imx6ul-gpioled";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpioled>;//此节点下只有一个引脚组
+		led-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;///低电平点亮
+		status = "okay";
+	};
+
+	/*添加gpio子系统节点*/
+	gpiokey{
+		compatible = "alientek,imx6ul-gpiokey";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpiokey>;//此节点下只有一个引脚组
+		key-gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;///低电平点亮
+		status = "okay";
+	};
 };
 //测试中断添加
 &intc {
@@ -323,6 +341,20 @@
 			>;
 		};
 
+		//创建自己的点灯引脚组
+		pinctrl_gpioled: ledgrp {
+			fsl,pins = <
+				MX6UL_PAD_GPIO1_IO03__GPIO1_IO03	0x10b0 /* LED */
+			>;
+		};
+
+		//创建按键引脚组
+		pinctrl_gpiokey: keygrp {
+			fsl,pins = <
+				MX6UL_PAD_UART1_CTS_B__GPIO1_IO18	0xF080 /* key */
+			>;
+		};
+
 		pinctrl_csi1: csi1grp {
 			fsl,pins = <
 				MX6UL_PAD_CSI_MCLK__CSI_MCLK		0x1b088
@@ -467,7 +499,7 @@
 			fsl,pins = <
 				MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0xb0
 				MX6UL_PAD_GPIO1_IO02__GPIO1_IO02	0xb0
-				MX6UL_PAD_GPIO1_IO03__GPIO1_IO03	0xb0
+				/*MX6UL_PAD_GPIO1_IO03__GPIO1_IO03	0xb0*/
 				MX6UL_PAD_GPIO1_IO04__GPIO1_IO04	0xb0
 			>;
 		};
@@ -721,7 +753,7 @@
 &tsc {
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_tsc>;
-	xnur-gpio = <&gpio1 3 GPIO_ACTIVE_LOW>;
+	/*xnur-gpio = <&gpio1 3 GPIO_ACTIVE_LOW>;*/
 	measure-delay-time = <0xffff>;
 	pre-charge-time = <0xfff>;
 	status = "okay";
