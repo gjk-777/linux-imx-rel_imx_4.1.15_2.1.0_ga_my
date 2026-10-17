@@ -172,12 +172,16 @@
 	};
 
 	/*添加gpio子系统节点*/
-	gpiokey{
+	key{
 		compatible = "alientek,imx6ul-gpiokey";
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_gpiokey>;//此节点下只有一个引脚组
-		key-gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;///低电平点亮
+		pinctrl-0 = <&pinctrl_key>;//此节点下只有一个引脚组
+		key-gpio = <&gpio1 18 GPIO_ACTIVE_HIGH
+		            
+					   >;///低电平点亮  可以有多少个
 		status = "okay";
+		interrupt-parent = <&gpio1>;
+		interrupts = <18 IRQ_TYPE_EDGE_BOTH>;//上升沿和下降沿都会触发(按下和松开)
 	};
 };
 //测试中断添加
@@ -289,8 +293,8 @@
 		compatible = "fsl,fxls8471";
 		reg = <0x1e>;
 		position = <0>;
-		interrupt-parent = <&gpio5>;
-		interrupts = <0 8>;
+		interrupt-parent = <&gpio5>;//指定父中断，也就是中断控制器
+		interrupts = <0 8>;//设置中断信息：0表示GPIO5_IO00,8表示低电平触发
 	};
 };
 
@@ -349,7 +353,7 @@
 		};
 
 		//创建按键引脚组
-		pinctrl_gpiokey: keygrp {
+		pinctrl_key: keygrp {
 			fsl,pins = <
 				MX6UL_PAD_UART1_CTS_B__GPIO1_IO18	0xF080 /* key */
 			>;
