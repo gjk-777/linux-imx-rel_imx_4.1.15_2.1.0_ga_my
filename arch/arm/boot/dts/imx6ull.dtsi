@@ -91,8 +91,8 @@
 
 	intc: interrupt-controller@00a01000 {
 		compatible = "arm,cortex-a7-gic";
-		#interrupt-cells = <3>;
-		interrupt-controller;
+		#interrupt-cells = <3>;//cell1是中断类型，0表示spi中断，1表示ppi中断；cells2：中断号，对于 SPI 中断来说中断号的范围为 0~987，对于 PPI 中断来说中断号的范围为 0~15。cells3：标志，bit[3:0]表示中断触发类型，为 1 的时候表示上升沿触发，为 2 的时候表示下降沿触发，为 4 的时候表示高电平触发，为 8 的时候表示低电平触发。bit[15:8]为 PPI 中断的 CPU 掩码。
+		interrupt-controller;    //interrupt-controller 节点为空，表示当前节点是中断控制器
 		reg = <0x00a01000 0x1000>,
 		      <0x00a02000 0x100>;
 	};
@@ -541,8 +541,8 @@
 					     <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
 				gpio-controller;
 				#gpio-cells = <2>;
-				interrupt-controller;
-				#interrupt-cells = <2>;
+				interrupt-controller;//当前节点为中断控制器
+				#interrupt-cells = <2>;//指定中断源的信息cells个数
 			};
 
 			gpio5: gpio@020ac000 {
