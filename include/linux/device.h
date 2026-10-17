@@ -103,15 +103,15 @@ extern void bus_remove_file(struct bus_type *, struct bus_attribute *);
  * private data.
  */
 struct bus_type {
-	const char		*name;
+	const char		*name;      //总线名字
 	const char		*dev_name;
 	struct device		*dev_root;
 	struct device_attribute	*dev_attrs;	/* use dev_groups instead */
-	const struct attribute_group **bus_groups;
-	const struct attribute_group **dev_groups;
-	const struct attribute_group **drv_groups;
+	const struct attribute_group **bus_groups;  //总线属性组
+	const struct attribute_group **dev_groups;  //设备属性组
+	const struct attribute_group **drv_groups;	//驱动属性组
 
-	int (*match)(struct device *dev, struct device_driver *drv);
+	int (*match)(struct device *dev, struct device_driver *drv); 	//完成设备和驱动匹配；注册的设备找驱动，注册的驱动找设备；参数：dev：设备，drv：驱动
 	int (*uevent)(struct device *dev, struct kobj_uevent_env *env);
 	int (*probe)(struct device *dev);
 	int (*remove)(struct device *dev);

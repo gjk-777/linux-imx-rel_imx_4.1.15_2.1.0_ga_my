@@ -172,13 +172,13 @@ extern void platform_device_del(struct platform_device *pdev);
 extern void platform_device_put(struct platform_device *pdev);
 
 struct platform_driver {
-	int (*probe)(struct platform_device *);
+	int (*probe)(struct platform_device *);	//当驱动与设备匹配成功以后 probe 函数就会执行
 	int (*remove)(struct platform_device *);
 	void (*shutdown)(struct platform_device *);
 	int (*suspend)(struct platform_device *, pm_message_t state);
 	int (*resume)(struct platform_device *);
-	struct device_driver driver;
-	const struct platform_device_id *id_table;
+	struct device_driver driver;	// 设备驱动结构体
+	const struct platform_device_id *id_table; //设备id_table表，platform总线匹配驱动和设备的时候采用的第三种方法
 	bool prevent_deferred_probe;
 };
 

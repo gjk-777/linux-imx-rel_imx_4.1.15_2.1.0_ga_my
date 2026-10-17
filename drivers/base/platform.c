@@ -827,19 +827,19 @@ static int platform_match(struct device *dev, struct device_driver *drv)
 		return !strcmp(pdev->driver_override, drv->name);
 
 	/* Attempt an OF style match first */
-	if (of_driver_match_device(dev, drv))
+	if (of_driver_match_device(dev, drv))	//of类型匹配，设备树采用的匹配方式
 		return 1;
 
 	/* Then try ACPI style match */
-	if (acpi_driver_match_device(dev, drv))
+	if (acpi_driver_match_device(dev, drv))  //APCI类型匹配
 		return 1;
 
 	/* Then try to match against the id table */
-	if (pdrv->id_table)
+	if (pdrv->id_table)						//id_table存在，则进行id_table的匹配;
 		return platform_match_id(pdrv->id_table, pdev) != NULL;
 
 	/* fall-back to driver name match */
-	return (strcmp(pdev->name, drv->name) == 0);
+	return (strcmp(pdev->name, drv->name) == 0);	//	如果id_table不存在，则进行name字段的匹配
 }
 
 #ifdef CONFIG_PM_SLEEP
