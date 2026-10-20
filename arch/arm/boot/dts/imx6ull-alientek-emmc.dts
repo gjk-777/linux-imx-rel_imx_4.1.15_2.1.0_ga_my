@@ -176,12 +176,44 @@
 		compatible = "alientek,imx6ul-gpiokey";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_key>;//此节点下只有一个引脚组
-		key-gpio = <&gpio1 18 GPIO_ACTIVE_HIGH
+		key-gpio = <&gpio1 18 GPIO_ACTIVE_LOW
 		            
 					   >;///低电平点亮  可以有多少个
 		status = "okay";
 		interrupt-parent = <&gpio1>;
 		interrupts = <18 IRQ_TYPE_EDGE_BOTH>;//上升沿和下降沿都会触发(按下和松开)
+	};
+
+////////////////*****************与内核相关的设备树编写**********************
+	dtsleds{
+		compatible = "gpio-leds";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_gpioled>;//pinctrl设置电气属性
+
+		led0{
+			label = "red";
+			gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;///低电平点亮			
+			linux,default-trigger = "heartbeat";
+			default-state = "on";
+		};
+	};
+
+	gpio_keys{
+		compatible = "gpio-keys";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		autorepeat;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_key>;
+		
+		key0{
+			label = "GPIO KEY Enter";
+			linux,code = <KEY_ENTER>;
+			gpios = <&gpio1 18 GPIO_ACTIVE_LOW>;
+
+		};
 	};
 };
 //测试中断添加
