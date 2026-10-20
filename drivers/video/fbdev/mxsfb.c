@@ -1371,10 +1371,10 @@ static int mxsfb_probe(struct platform_device *pdev)
 	const struct of_device_id *of_id =
 			of_match_device(mxsfb_dt_ids, &pdev->dev);
 	struct resource *res;
-	struct mxsfb_info *host;
+	struct mxsfb_info *host;//LCD 的主控接口，是NXP针对IMX系列的FrameBuffer设备结构体
 	struct fb_info *fb_info;
 	struct pinctrl *pinctrl;
-	int irq = platform_get_irq(pdev, 0);
+	int irq = platform_get_irq(pdev, 0);//获取设备树的中断信息
 	int gpio, ret;
 
 	if (of_id)
@@ -1392,29 +1392,29 @@ static int mxsfb_probe(struct platform_device *pdev)
 		}
 	}
 
-	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);//从设备树中获取eLCDIF接口控制器的寄存器首地址，设备树中 lcdif 节点已经设置了 eLCDIF 寄存器首地址为 0X021C8000，因此 res->start=0X021C8000。
 	if (!res) {
 		dev_err(&pdev->dev, "Cannot get memory IO resource\n");
 		return -ENODEV;
 	}
 
-	host = devm_kzalloc(&pdev->dev, sizeof(struct mxsfb_info), GFP_KERNEL);
+	host = devm_kzalloc(&pdev->dev, sizeof(struct mxsfb_info), GFP_KERNEL);//给 host 申请内存
 	if (!host) {
 		dev_err(&pdev->dev, "Failed to allocate IO resource\n");
 		return -ENOMEM;
 	}
 
-	fb_info = framebuffer_alloc(sizeof(struct fb_info), &pdev->dev);
+	fb_info = framebuffer_alloc(sizeof(struct fb_info), &pdev->dev);//申请fb_info内存，后面就初始化fb_info各个成员变量
 	if (!fb_info) {
 		dev_err(&pdev->dev, "Failed to allocate fbdev\n");
 		devm_kfree(&pdev->dev, host);
 		return -ENOMEM;
 	}
-	host->fb_info = fb_info;
-	fb_info->par = host;
+	host->fb_info = fb_info;//设置 host 的 fb_info 成员变量为 fb_info，
+	fb_info->par = host;	//设置 fb_info 的 par 成员变量为host。通过这一步就将前面申请的 host 和 fb_info 联系在了一起。
 
 	ret = devm_request_irq(&pdev->dev, irq, mxsfb_irq_handler, 0,
-			  dev_name(&pdev->dev), host);
+			  dev_name(&pdev->dev), host);//为上面获取的中断号申请中断，注册中断处理函数
 	if (ret) {
 		dev_err(&pdev->dev, "request_irq (%d) failed with error %d\n",
 				irq, ret);
@@ -1422,7 +1422,7 @@ static int mxsfb_probe(struct platform_device *pdev)
 		goto fb_release;
 	}
 
-	host->base = devm_ioremap_resource(&pdev->dev, res);
+	host->base = devm_ioremap_resource(&pdev->dev, res);//物理地址范围映射为内核虚拟地址
 	if (IS_ERR(host->base)) {
 		dev_err(&pdev->dev, "ioremap failed\n");
 		ret = PTR_ERR(host->base);
@@ -1460,7 +1460,7 @@ static int mxsfb_probe(struct platform_device *pdev)
 		host->reg_lcd = NULL;
 
 	fb_info->pseudo_palette = devm_kzalloc(&pdev->dev, sizeof(u32) * 16,
-					       GFP_KERNEL);
+					       GFP_KERNEL); //给 fb_info 中的 pseudo_palette 申请内存。
 	if (!fb_info->pseudo_palette) {
 		ret = -ENOMEM;
 		goto fb_release;
@@ -1470,7 +1470,7 @@ static int mxsfb_probe(struct platform_device *pdev)
 
 	pm_runtime_enable(&host->pdev->dev);
 
-	ret = mxsfb_init_fbinfo(host);
+	ret = mxsfb_init_fbinfo(host);//初始化 fb_info
 	if (ret != 0)
 		goto fb_pm_runtime_disable;
 
@@ -1486,12 +1486,12 @@ static int mxsfb_probe(struct platform_device *pdev)
 
 	if (!host->enabled) {
 		writel(0, host->base + LCDC_CTRL);
-		mxsfb_set_par(fb_info);
-		mxsfb_enable_controller(fb_info);
+		mxsfb_set_par(fb_info);	//// 配置 eLCDIF 寄存器
+		mxsfb_enable_controller(fb_info);  //// 启动控制器
 		pm_runtime_get_sync(&host->pdev->dev);
 	}
 
-	ret = register_framebuffer(fb_info);
+	ret = register_framebuffer(fb_info);///向 Linux 内核注册初始化好的 fb_info
 	if (ret != 0) {
 		dev_err(&pdev->dev, "Failed to register framebuffer\n");
 		goto fb_destroy;

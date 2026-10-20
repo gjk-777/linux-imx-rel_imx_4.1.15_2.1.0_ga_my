@@ -449,23 +449,23 @@ struct fb_info {
 	atomic_t count;
 	int node;
 	int flags;
-	struct mutex lock;		/* Lock for open/release/ioctl funcs */
-	struct mutex mm_lock;		/* Lock for fb_mmap and smem_* fields */
-	struct fb_var_screeninfo var;	/* Current var */
-	struct fb_fix_screeninfo fix;	/* Current fix */
-	struct fb_monspecs monspecs;	/* Current Monitor specs */
-	struct work_struct queue;	/* Framebuffer event queue */
-	struct fb_pixmap pixmap;	/* Image hardware mapper */
-	struct fb_pixmap sprite;	/* Cursor hardware mapper */
-	struct fb_cmap cmap;		/* Current cmap */
-	struct list_head modelist;      /* mode list */
-	struct fb_videomode *mode;	/* current mode */
+	struct mutex lock;		/* Lock for open/release/ioctl funcs */  // 互斥锁 
+	struct mutex mm_lock;		/* Lock for fb_mmap and smem_* fields */// 互斥锁；用于fb_mmap和smem_*域
+	struct fb_var_screeninfo var;	/* Current var */  			//当前可变参数****
+	struct fb_fix_screeninfo fix;	/* Current fix */			//当前固定参数****
+	struct fb_monspecs monspecs;	/* Current Monitor specs */	//当前显示器特性
+	struct work_struct queue;	/* Framebuffer event queue */	//帧缓冲事件队列 
+	struct fb_pixmap pixmap;	/* Image hardware mapper */		// 图像硬件映射 
+	struct fb_pixmap sprite;	/* Cursor hardware mapper */	//光标硬件映射
+	struct fb_cmap cmap;		/* Current cmap */				//当前调色板 
+	struct list_head modelist;      /* mode list */				// 当前模式列表
+	struct fb_videomode *mode;	/* current mode */				//当前视频模式
 
-#ifdef CONFIG_FB_BACKLIGHT
+#ifdef CONFIG_FB_BACKLIGHT					//* 如果 LCD 支持背光的话 */
 	/* assigned backlight device */
 	/* set before framebuffer registration, 
 	   remove after unregister */
-	struct backlight_device *bl_dev;
+	struct backlight_device *bl_dev;		//背光设备
 
 	/* Backlight level curve */
 	struct mutex bl_curve_mutex;	
@@ -476,16 +476,16 @@ struct fb_info {
 	struct fb_deferred_io *fbdefio;
 #endif
 
-	struct fb_ops *fbops;
-	struct device *device;		/* This is the parent */
-	struct device *dev;		/* This is this fb device */
-	int class_flag;                    /* private sysfs flags */
+	struct fb_ops *fbops;		//帧缓冲操作函数集**************
+	struct device *device;		/* This is the parent *///父设备
+	struct device *dev;		/* This is this fb device *///当前fb设备
+	int class_flag;                    /* private sysfs flags *///私有 sysfs 标志
 #ifdef CONFIG_FB_TILEBLITTING
 	struct fb_tile_ops *tileops;    /* Tile Blitting */
 #endif
-	char __iomem *screen_base;	/* Virtual address */
-	unsigned long screen_size;	/* Amount of ioremapped VRAM or 0 */ 
-	void *pseudo_palette;		/* Fake palette of 16 colors */ 
+	char __iomem *screen_base;	/* Virtual address */	//虚拟内存基地址(屏幕显存) *****
+	unsigned long screen_size;	/* Amount of ioremapped VRAM or 0 */ // 虚拟内存大小(屏幕显存大小)
+	void *pseudo_palette;		/* Fake palette of 16 colors */ 	// 伪 16 位调色板  *****
 #define FBINFO_STATE_RUNNING	0
 #define FBINFO_STATE_SUSPENDED	1
 	u32 state;			/* Hardware state i.e suspend */

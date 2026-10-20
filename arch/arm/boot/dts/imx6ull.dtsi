@@ -1015,7 +1015,9 @@
 				clock-names = "pix", "axi", "disp_axi";
 				status = "disabled";
 			};
-
+			//pixLCD 像素时钟，决定 LCDIF 输出像素频率
+			//axi LCDIF 的 APB/AXI 总线访问时钟
+			//disp_axi 显示控制器的 AXI 总线访问时钟
 			pxp: pxp@021cc000 {
 				compatible = "fsl,imx6ull-pxp-dma", "fsl,imx7d-pxp-dma";
 				reg = <0x021cc000 0x4000>;
