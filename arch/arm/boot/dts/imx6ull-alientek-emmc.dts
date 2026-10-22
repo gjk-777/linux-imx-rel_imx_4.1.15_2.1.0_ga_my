@@ -38,9 +38,9 @@
 
 	backlight {
 		compatible = "pwm-backlight";
-		pwms = <&pwm1 0 5000000>;
-		brightness-levels = <0 4 8 16 32 64 128 255>;
-		default-brightness-level = <6>;
+		pwms = <&pwm1 0 5000000>;//设置为200HZ
+		brightness-levels = <0 4 8 16 32 64 128 255>;//设置为8个等级
+		default-brightness-level = <7>;//默认等级
 		status = "okay";
 	};
 
@@ -466,45 +466,45 @@
 			>;
 		};
 
-		pinctrl_lcdif_dat: lcdifdatgrp {
+		pinctrl_lcdif_dat: lcdifdatgrp {//数据线配置项   (79改成59降低IO驱动能力害怕影响网路)
 			fsl,pins = <
-				MX6UL_PAD_LCD_DATA00__LCDIF_DATA00  0x79
-				MX6UL_PAD_LCD_DATA01__LCDIF_DATA01  0x79
-				MX6UL_PAD_LCD_DATA02__LCDIF_DATA02  0x79
-				MX6UL_PAD_LCD_DATA03__LCDIF_DATA03  0x79
-				MX6UL_PAD_LCD_DATA04__LCDIF_DATA04  0x79
-				MX6UL_PAD_LCD_DATA05__LCDIF_DATA05  0x79
-				MX6UL_PAD_LCD_DATA06__LCDIF_DATA06  0x79
-				MX6UL_PAD_LCD_DATA07__LCDIF_DATA07  0x79
-				MX6UL_PAD_LCD_DATA08__LCDIF_DATA08  0x79
-				MX6UL_PAD_LCD_DATA09__LCDIF_DATA09  0x79
-				MX6UL_PAD_LCD_DATA10__LCDIF_DATA10  0x79
-				MX6UL_PAD_LCD_DATA11__LCDIF_DATA11  0x79
-				MX6UL_PAD_LCD_DATA12__LCDIF_DATA12  0x79
-				MX6UL_PAD_LCD_DATA13__LCDIF_DATA13  0x79
-				MX6UL_PAD_LCD_DATA14__LCDIF_DATA14  0x79
-				MX6UL_PAD_LCD_DATA15__LCDIF_DATA15  0x79
-				MX6UL_PAD_LCD_DATA16__LCDIF_DATA16  0x79
-				MX6UL_PAD_LCD_DATA17__LCDIF_DATA17  0x79
-				MX6UL_PAD_LCD_DATA18__LCDIF_DATA18  0x79
-				MX6UL_PAD_LCD_DATA19__LCDIF_DATA19  0x79
-				MX6UL_PAD_LCD_DATA20__LCDIF_DATA20  0x79
-				MX6UL_PAD_LCD_DATA21__LCDIF_DATA21  0x79
-				MX6UL_PAD_LCD_DATA22__LCDIF_DATA22  0x79
-				MX6UL_PAD_LCD_DATA23__LCDIF_DATA23  0x79
+				MX6UL_PAD_LCD_DATA00__LCDIF_DATA00  0x59
+				MX6UL_PAD_LCD_DATA01__LCDIF_DATA01  0x59
+				MX6UL_PAD_LCD_DATA02__LCDIF_DATA02  0x59
+				MX6UL_PAD_LCD_DATA03__LCDIF_DATA03  0x59
+				MX6UL_PAD_LCD_DATA04__LCDIF_DATA04  0x59
+				MX6UL_PAD_LCD_DATA05__LCDIF_DATA05  0x59
+				MX6UL_PAD_LCD_DATA06__LCDIF_DATA06  0x59
+				MX6UL_PAD_LCD_DATA07__LCDIF_DATA07  0x59
+				MX6UL_PAD_LCD_DATA08__LCDIF_DATA08  0x59
+				MX6UL_PAD_LCD_DATA09__LCDIF_DATA09  0x59
+				MX6UL_PAD_LCD_DATA10__LCDIF_DATA10  0x59
+				MX6UL_PAD_LCD_DATA11__LCDIF_DATA11  0x59
+				MX6UL_PAD_LCD_DATA12__LCDIF_DATA12  0x59
+				MX6UL_PAD_LCD_DATA13__LCDIF_DATA13  0x59
+				MX6UL_PAD_LCD_DATA14__LCDIF_DATA14  0x59
+				MX6UL_PAD_LCD_DATA15__LCDIF_DATA15  0x59
+				MX6UL_PAD_LCD_DATA16__LCDIF_DATA16  0x59
+				MX6UL_PAD_LCD_DATA17__LCDIF_DATA17  0x59
+				MX6UL_PAD_LCD_DATA18__LCDIF_DATA18  0x59
+				MX6UL_PAD_LCD_DATA19__LCDIF_DATA19  0x59
+				MX6UL_PAD_LCD_DATA20__LCDIF_DATA20  0x59
+				MX6UL_PAD_LCD_DATA21__LCDIF_DATA21  0x59
+				MX6UL_PAD_LCD_DATA22__LCDIF_DATA22  0x59
+				MX6UL_PAD_LCD_DATA23__LCDIF_DATA23  0x59
 			>;
 		};
 
-		pinctrl_lcdif_ctrl: lcdifctrlgrp {
+		pinctrl_lcdif_ctrl: lcdifctrlgrp {//4根控制线配置CLK,EN,ABLE,VSYNC,HSYNC
 			fsl,pins = <
-				MX6UL_PAD_LCD_CLK__LCDIF_CLK	    0x79
-				MX6UL_PAD_LCD_ENABLE__LCDIF_ENABLE  0x79
-				MX6UL_PAD_LCD_HSYNC__LCDIF_HSYNC    0x79
-				MX6UL_PAD_LCD_VSYNC__LCDIF_VSYNC    0x79
+				MX6UL_PAD_LCD_CLK__LCDIF_CLK	    0x59
+				MX6UL_PAD_LCD_ENABLE__LCDIF_ENABLE  0x59
+				MX6UL_PAD_LCD_HSYNC__LCDIF_HSYNC    0x59
+				MX6UL_PAD_LCD_VSYNC__LCDIF_VSYNC    0x59
 			>;
 		};
 
-		pinctrl_pwm1: pwm1grp {
+		pinctrl_pwm1: pwm1grp {//背光引脚
 			fsl,pins = <
 				MX6UL_PAD_GPIO1_IO08__PWM1_OUT   0x110b0
 			>;
@@ -721,27 +721,27 @@
 	display = <&display0>;
 	status = "okay";
 
-	display0: display {
-		bits-per-pixel = <16>;
-		bus-width = <24>;
+	display0: display {//LCD 属性信息 
+		bits-per-pixel = <32>;  // 一个像素占用几个 bit ;565是16，888是32
+		bus-width = <24>;    // 总线宽度  RGB888
 
 		display-timings {
-			native-mode = <&timing0>;
+			native-mode = <&timing0>;  /// 时序信息 
 			timing0: timing0 {
-			clock-frequency = <9200000>;
-			hactive = <480>;
-			vactive = <272>;
-			hfront-porch = <8>;
-			hback-porch = <4>;
-			hsync-len = <41>;
-			vback-porch = <2>;
-			vfront-porch = <4>;
-			vsync-len = <10>;
+			clock-frequency = <9000000>;// LCD 像素时钟，单位 Hz
+			hactive = <480>;		//LCD X 轴像素个数 
+			vactive = <272>;		//LCD Y 轴像素个数
+			hfront-porch = <5>;		//LCD hfp 参数
+			hback-porch = <40>;		//LCD hbp 参数
+			hsync-len = <1>;		//LCD hspw 参数
+			vback-porch = <8>;		//LCD vbp 参数
+			vfront-porch = <8>;		//LCD vfp 参数
+			vsync-len = <1>;		// LCD vspw 参数
 
-			hsync-active = <0>;
-			vsync-active = <0>;
-			de-active = <1>;
-			pixelclk-active = <0>;
+			hsync-active = <0>;		// hsync 数据线极性 
+			vsync-active = <0>;		// vsync 数据线极性 
+			de-active = <1>;		// de 数据线极性 
+			pixelclk-active = <0>;	// clk 数据线先极性 
 			};
 		};
 	};
