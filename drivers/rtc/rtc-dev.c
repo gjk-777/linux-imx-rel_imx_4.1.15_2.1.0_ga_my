@@ -267,7 +267,7 @@ static long rtc_dev_ioctl(struct file *file,
 	 */
 
 	switch (cmd) {
-	case RTC_ALM_READ:
+	case RTC_ALM_READ://读取 RTC 已设置的闹钟时间。
 		mutex_unlock(&rtc->ops_lock);
 
 		err = rtc_read_alarm(rtc, &alarm);
@@ -330,7 +330,7 @@ static long rtc_dev_ioctl(struct file *file,
 
 		return rtc_set_alarm(rtc, &alarm);
 
-	case RTC_RD_TIME:
+	case RTC_RD_TIME://读时间
 		mutex_unlock(&rtc->ops_lock);
 
 		err = rtc_read_time(rtc, &tm);
@@ -341,7 +341,7 @@ static long rtc_dev_ioctl(struct file *file,
 			err = -EFAULT;
 		return err;
 
-	case RTC_SET_TIME:
+	case RTC_SET_TIME://设置时间
 		mutex_unlock(&rtc->ops_lock);
 
 		if (copy_from_user(&tm, uarg, sizeof(tm)))
@@ -445,7 +445,7 @@ static int rtc_dev_release(struct inode *inode, struct file *file)
 	return 0;
 }
 
-static const struct file_operations rtc_dev_fops = {
+static const struct file_operations rtc_dev_fops = {//rtc的字符设备的file_operations函数操作集
 	.owner		= THIS_MODULE,
 	.llseek		= no_llseek,
 	.read		= rtc_dev_read,

@@ -250,9 +250,9 @@ static int snvs_rtc_probe(struct platform_device *pdev)
 
 	if (IS_ERR(data->regmap)) {
 		dev_warn(&pdev->dev, "snvs rtc: you use old dts file, please update it\n");
-		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+		res = platform_get_resource(pdev, IORESOURCE_MEM, 0);//获取rtc外设寄存器基地址
 
-		mmio = devm_ioremap_resource(&pdev->dev, res);
+		mmio = devm_ioremap_resource(&pdev->dev, res);//内存映射，得到虚拟地址
 		if (IS_ERR(mmio))
 			return PTR_ERR(mmio);
 
@@ -267,7 +267,7 @@ static int snvs_rtc_probe(struct platform_device *pdev)
 		return -ENODEV;
 	}
 
-	data->irq = platform_get_irq(pdev, 0);
+	data->irq = platform_get_irq(pdev, 0);//获得中断号
 	if (data->irq < 0)
 		return data->irq;
 
@@ -285,7 +285,7 @@ static int snvs_rtc_probe(struct platform_device *pdev)
 
 	platform_set_drvdata(pdev, data);
 
-	/* Initialize glitch detect */
+	/* Initialize glitch detect *///操作相关寄存器offset是偏移
 	regmap_write(data->regmap, data->offset + SNVS_LPPGDR, SNVS_LPPGDR_INIT);
 
 	/* Clear interrupt status */
@@ -305,7 +305,7 @@ static int snvs_rtc_probe(struct platform_device *pdev)
 	}
 
 	data->rtc = devm_rtc_device_register(&pdev->dev, pdev->name,
-					&snvs_rtc_ops, THIS_MODULE);
+					&snvs_rtc_ops, THIS_MODULE);//向内核注册rtc_device设备，重点ops
 	if (IS_ERR(data->rtc)) {
 		ret = PTR_ERR(data->rtc);
 		dev_err(&pdev->dev, "failed to register rtc: %d\n", ret);

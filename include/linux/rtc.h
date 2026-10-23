@@ -103,16 +103,16 @@ struct rtc_timer {
 
 struct rtc_device
 {
-	struct device dev;
+	struct device dev;// 设备 
 	struct module *owner;
 
-	int id;
-	char name[RTC_DEVICE_NAME_SIZE];
+	int id;	//id
+	char name[RTC_DEVICE_NAME_SIZE];//名字
 
-	const struct rtc_class_ops *ops;
+	const struct rtc_class_ops *ops;// RTC 设备底层操作函数 
 	struct mutex ops_lock;
 
-	struct cdev char_dev;
+	struct cdev char_dev;	//字符设备
 	unsigned long flags;
 
 	unsigned long irq_data;
