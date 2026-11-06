@@ -315,15 +315,30 @@
 	pinctrl-0 = <&pinctrl_i2c1>;
 	status = "okay";
 
-	mag3110@0e {
+	ap3216c@1e {
+		compatible = "alientek,ap3216c";
+		reg = <0x1e>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_ap3216c>;
+		/* 环境光中断：芯片第 7 脚 -> AP_INT -> J2 第 49 脚 -> GPIO1_IO01。 */
+		irq-gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+		interrupt-parent = <&gpio1>;
+		interrupts = <1 IRQ_TYPE_LEVEL_LOW>;
+		status = "okay";
+	};
+
+//i2c1下面挂了两个i2c设备芯片
+	mag3110@0e {  			//0e是设备地址
 		compatible = "fsl,mag3110";
-		reg = <0x0e>;
+		reg = <0x0e>;		//0e是设备地址
 		position = <2>;
 	};
 
 	fxls8471@1e {
 		compatible = "fsl,fxls8471";
 		reg = <0x1e>;
+		/* AP3216C 使用同一总线上的 0x1e 地址，因此保持此节点禁用。 */
+		status = "disabled";
 		position = <0>;
 		interrupt-parent = <&gpio5>;//指定父中断，也就是中断控制器
 		interrupts = <0 8>;//设置中断信息：0表示GPIO5_IO00,8表示低电平触发
@@ -452,6 +467,13 @@
 			>;
 		};
 
+		pinctrl_ap3216c: ap3216cgrp {
+			fsl,pins = <
+				/* 中断输入：开启输入迟滞和 100K 上拉，低电平有效。 */
+				MX6UL_PAD_GPIO1_IO01__GPIO1_IO01 0x1b0b0
+			>;
+		};
+
 		pinctrl_i2c1: i2c1grp {
 			fsl,pins = <
 				MX6UL_PAD_UART4_TX_DATA__I2C1_SCL 0x4001b8b0
@@ -533,7 +555,7 @@
 
 		pinctrl_tsc: tscgrp {
 			fsl,pins = <
-				MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0xb0
+				/*MX6UL_PAD_GPIO1_IO01__GPIO1_IO01	0xb0*/ /*GPIO1_IO01 已用于 AP3216C 中断*/
 				MX6UL_PAD_GPIO1_IO02__GPIO1_IO02	0xb0
 				/*MX6UL_PAD_GPIO1_IO03__GPIO1_IO03	0xb0*/
 				MX6UL_PAD_GPIO1_IO04__GPIO1_IO04	0xb0
@@ -792,7 +814,8 @@
 	/*xnur-gpio = <&gpio1 3 GPIO_ACTIVE_LOW>;*/
 	measure-delay-time = <0xffff>;
 	pre-charge-time = <0xfff>;
-	status = "okay";
+	/* GPIO1_IO01 已用于 AP3216C 中断，因此禁用占用同一引脚的电阻触摸屏。 */
+	status = "disabled";
 };
 
 &uart1 {

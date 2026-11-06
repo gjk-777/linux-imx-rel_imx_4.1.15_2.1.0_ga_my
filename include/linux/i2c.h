@@ -215,14 +215,14 @@ struct i2c_driver {
  * managing the device.
  */
 struct i2c_client {
-	unsigned short flags;		/* div., see below		*/
-	unsigned short addr;		/* chip address - NOTE: 7bit	*/
+	unsigned short flags;		/* div., see below		*///标志
+	unsigned short addr;		/* chip address - NOTE: 7bit	*///芯片地址7位
 					/* addresses are stored in the	*/
 					/* _LOWER_ 7 bits		*/
-	char name[I2C_NAME_SIZE];
-	struct i2c_adapter *adapter;	/* the adapter we sit on	*/
-	struct device dev;		/* the device structure		*/
-	int irq;			/* irq issued by device		*/
+	char name[I2C_NAME_SIZE];//名字
+	struct i2c_adapter *adapter;	/* the adapter we sit on	*///对应的I2C适配器
+	struct device dev;		/* the device structure		*///设备结构体
+	int irq;			/* irq issued by device		*///中断
 	struct list_head detected;
 #if IS_ENABLED(CONFIG_I2C_SLAVE)
 	i2c_slave_cb_t slave_cb;	/* callback for slave mode	*/
@@ -396,10 +396,11 @@ struct i2c_algorithm {
 	/* master_xfer should return the number of messages successfully
 	   processed, or a negative value on error */
 	int (*master_xfer)(struct i2c_adapter *adap, struct i2c_msg *msgs,
-			   int num);
+			   int num);// I2C 适配器的传输函数，可以通过此函数来完成与 IIC 设备间的通信
 	int (*smbus_xfer) (struct i2c_adapter *adap, u16 addr,
 			   unsigned short flags, char read_write,
-			   u8 command, int size, union i2c_smbus_data *data);
+			   u8 command, int size, union i2c_smbus_data *data); //SMBUS 总线的传输函数。
+
 
 	/* To determine what the adapter supports */
 	u32 (*functionality) (struct i2c_adapter *);
@@ -498,7 +499,7 @@ struct i2c_adapter_quirks {
 struct i2c_adapter {
 	struct module *owner;
 	unsigned int class;		  /* classes to allow probing for */
-	const struct i2c_algorithm *algo; /* the algorithm to access the bus */
+	const struct i2c_algorithm *algo; /* the algorithm to access the bus *///总线访问算法
 	void *algo_data;
 
 	/* data fields that are valid for all devices	*/
