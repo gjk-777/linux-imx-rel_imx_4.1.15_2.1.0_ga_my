@@ -406,6 +406,16 @@
 			>;
 		};
 
+		//创建自己的spi引脚组  imc20608芯片
+		pinctrl_ecspi3: imc20608_ecspi3_grp{
+			fsl,pins = < /*防止冲突，应该进行引脚查询和屏蔽的，防止冲突*/
+				MX6UL_PAD_UART2_TX_DATA__GPIO1_IO20  0x10b0 /* CS */ 
+              	MX6UL_PAD_UART2_RX_DATA__ECSPI3_SCLK     0x10b1  /* SCLK */ 
+              	MX6UL_PAD_UART2_RTS_B__ECSPI3_MISO       0x10b1  /* MISO */ 
+              	MX6UL_PAD_UART2_CTS_B__ECSPI3_MOSI       0x10b1  /* MOSI */ 
+			>;
+		};
+
 		pinctrl_csi1: csi1grp {
 			fsl,pins = <
 				MX6UL_PAD_CSI_MCLK__CSI_MCLK		0x1b088
@@ -884,3 +894,18 @@
 	pinctrl-0 = <&pinctrl_wdog>;
 	fsl,wdog_b;
 };
+
+
+&ecspi3 { 
+    fsl,spi-num-chipselects = <1>; //片选数量是1
+    cs-gpios = <&gpio1 20 GPIO_ACTIVE_LOW>;//软件片选cs-gpios，内核内部做了高低电平
+    pinctrl-names = "default"; 
+    pinctrl-0 = <&pinctrl_ecspi3>; 
+    status = "okay"; 
+ 
+    spidev: icm20608@0 { //连接到ECSPI3的第0个通道上。@后面为0
+        compatible = "alientek,icm20608"; 
+        spi-max-frequency = <8000000>;  //8MHZ
+        reg = <0>;//通道0上
+    }; 
+}; 
