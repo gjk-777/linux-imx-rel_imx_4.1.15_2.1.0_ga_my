@@ -293,13 +293,13 @@ struct module;
 struct tty_driver;
 
 struct uart_driver {
-	struct module		*owner;
-	const char		*driver_name;
-	const char		*dev_name;
-	int			 major;
+	struct module		*owner;// 模块所属者  */ 
+	const char		*driver_name;// 驱动名字  */ 
+	const char		*dev_name;// 设备名字  */ 
+	int			 major;  // 主设备号  */ 
 	int			 minor;
-	int			 nr;
-	struct console		*cons;
+	int			 nr;// 设备数   */ 
+	struct console		*cons;// 控制台   */ 
 
 	/*
 	 * these are private; the low level driver should not
