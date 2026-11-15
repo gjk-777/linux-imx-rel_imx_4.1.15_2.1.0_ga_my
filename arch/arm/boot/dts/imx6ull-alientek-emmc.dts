@@ -416,6 +416,14 @@
 			>;
 		};
 
+		//创建自己的UART3的IO
+		pinctrl_uart3: uart3grp { 
+     		fsl,pins = < 
+         		MX6UL_PAD_UART3_TX_DATA__UART3_DCE_TX       0X1b0b1 
+         		MX6UL_PAD_UART3_RX_DATA__UART3_DCE_RX       0X1b0b1 
+   			>; 
+		}; 
+
 		pinctrl_csi1: csi1grp {
 			fsl,pins = <
 				MX6UL_PAD_CSI_MCLK__CSI_MCLK		0x1b088
@@ -841,8 +849,15 @@
 	/* for DTE mode, add below change */
 	/* fsl,dte-mode; */
 	/* pinctrl-0 = <&pinctrl_uart2dte>; */
-	status = "okay";
+	status = "disabled";
 };
+//开发板上没有用到 UART2，而且 UART2 默认用到了 UART3 的 IO，因此需要将 uart2 这个节点删除掉，然后加上 UART3 对应的 uart3
+
+&uart3 { 
+    pinctrl-names = "default"; 
+    pinctrl-0 = <&pinctrl_uart3>; 
+    status = "okay"; 
+}; 
 
 &usbotg1 {
 	dr_mode = "otg";
